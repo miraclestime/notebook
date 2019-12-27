@@ -1,0 +1,174 @@
+createdAt: "2019-12-18T01:38:40.941Z"
+updatedAt: "2019-12-18T07:07:00.352Z"
+type: "MARKDOWN_NOTE"
+folder: "7ca834648924395d0cc8"
+title: "mysql学习笔记-函数"
+tags: []
+content: '''
+  # mysql学习笔记-函数
+  ## 1. 数学函数
+  1. 绝对值： ABS(x);
+  2. 圆周率：pi()，保留七位有效数字;
+  3. 平方根：SQRT(x)，负数返回NULL；
+  4. 取余：MOD(x, y),x被y除；
+  5. 取整：CEIL(x) == CEILING(x),返回不小于x的最小整数值，返回值转换为BIGINT；
+  FLOOR(x)返回不大于x的最大整数值，返回值转换为BIGINT；
+  6. 获取随机数：RAND(),产生不同的随机数；
+  RAND(x)，x相同，产生相同的随机数；
+  7. ROUND(x),四舍五入；
+  ROUND(x,y),值保留到小数点后y位，x为负数时，保留x值到小数点左边y位，保留的小数点左边的相应位数直接保存0，如：
+  ![109c68ca.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\109c68ca.png)
+  TRUNCATE(x,y),对操作数进行截取操作，结果保留小数点指定的y位，如：
+  ![9fc4e134.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\9fc4e134.png)
+  8. 符号函数：SIGN(x),x的值为负数、0、正数时返回-1、0、1；
+  
+  ## 2. 字符串函数
+  1. 长度：CHAR_LENGTH(x),计算字符个数；LENGTH(x)，计算字节个数，英文字符个数=字节个数，1个汉字=3字节；
+  2. 合并字符串：
+  CONCAT(s1, s2...),任何一个参数为NULL，返回NULL，如果都是非二进制字符串，返回非二进制字符串，有一个二进制字符串，返回二进制字符串；
+  CANCAT_WS(x, s1, s2...),x标识分隔符，分隔符NULL时，返回NULL,忽略其他参数中的NULL值。
+  3. 替换字符串
+  INSERT(s1, x, len, s2), 替换s1字符串从x位置开始替换s2字符串len长度。
+  如果x超过字符串长度（包含小于0），则返回s1原值，如果len大于其他字符串长度，则从x位置开始替换，若任一个参数为NULL，返回NULL。
+  4. 大小写转换
+  LOWER(str),LCASE(str),转小写；
+  UPPER(str),UCASE(str),转大写。
+  5. 获取指定长度的字符串
+  LEFT(s,n),返回字符串s开始的最左边的n个字符；
+  RIGHT(s,n),返回字符串最右边的n个字符；
+  6. 填充字符串
+  LPAD(s1, len, s2)
+  ![0ab78c59.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\0ab78c59.png)
+  RPAD(s1, len, s2)
+  ![f26e4f57.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\f26e4f57.png)
+  7. 删除空格
+  LTRIM(s),删除左侧空格；
+  RTRIM(s)，删除右侧空格；
+  TRIM(s)，删除两侧空格。
+  8. 删除指定字符串
+  TRIM(s1 FROM s),删除字符串s中两端所有的字符串s1.
+  9. 重复生成字符串
+  REPEAT(s, n),重复s n遍，若n<=0,返回空字符串，若s或n为NULL，返回NULL。
+  10. 空格函数
+  SPACE(n),返回n个空格组成的字符串；
+  11. 替换
+  REPLACE(s, s1, s2),替换s中所有的s1为s2。
+  12. 比较字符串大小
+  STRCMP(s1, s2),相同返回0，s1<s2,返回-1,其他情况返回1。
+  13. 获取子串
+  SUBSTRING(s, n, len) == MID(s, n, len)
+  如果对len使用的是一个小于1的值，则结果为空字符串。
+  ![cdcc83d6.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\cdcc83d6.png)
+  14. 匹配子串开始位置
+  LOCATE(str1, str) == POSITION(str1 IN str) == INSTR(str, str1),返回字符串str1在str中的开始位置。
+  15. 逆序
+  REVERSE(s),反转字符串s；
+  16. 返回指定位置的字符串
+  ELT(N, str1, str2...)
+  ![772224b4.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\772224b4.png)
+  17. 返回指定字符串位置
+  FIELD() == FIND_IN_SET()
+  ![4f96d5b2.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\4f96d5b2.png)
+  
+  ## 3. 日期和时间函数
+  0. 设置时区
+  > set global time_zone = '+8:00';  ##修改mysql全局时区为北京时间，即东8区
+  > set time_zone = '+8:00';  ##修改当前会话时区
+  > flush privileges;  ##立即生效
+  1. 当前日期、时间
+  CURDATE() == CURRENT_DATE()，按照YYYY-MM-DD或YYYYMMDD格式返回，具体看函数在字符串还是数字的语境；
+  CURDATE()+0，转换为数值类型
+  CURTIME() == CURRENT_TIME();
+  2. 当前日期和时间
+  CURRENT_TIMESTAMP() == LOCALTIME() == NOW() == SYSDATE()
+  3. UNIX时间戳
+  UNIX_TIMESTAMP(date) 时间戳
+  FROM_UNIXTIME(date) UNIX时间戳转换为普通格式时间
+  4. UTC 世界标准时间
+  UTC_DATE()
+  UTC_TIME()
+  5. 获取月份
+  MONTH(date),获取月份
+  MONTHNAME(date),获取月份对应英文名
+  6. 获取星期
+  DAYNAME(date)，返回工作日名称，如Sunday；
+  DAYOFWEEK(date),返回一周中第几天，1代表周日；
+  WEEKDAY(date),返回工作日索引，0标识周一；
+  8. 获取星期数
+  WEEK(date),计算日期是一年的第几周,默认WEEK(date, 0)
+  WEEKOFYEAR(date) == WEEK(date, 3)
+  9. 获取天数
+  DAYOFYEAR();
+  DAYOFMONTH();
+  10. 年份
+  YEAR(date);
+  12. 季度
+  QUARTER(date);
+  14. 小时
+  HOUR(date);
+  16. 分钟
+  MINUTE(date);
+  18. 秒钟
+  SECOND(date);
+  20. 时间和秒转换
+  TIME_TO_SECOND(date);
+  SEC_TO_TIME(second);
+  21. 计算日期和时间
+  比较复杂，用到时再查
+  DATE_ADD()、ADDDATE()、DATE_SUB()、SUBDATE()、ADDTIME()、SUBTIME()、DATE_DIFF()
+  22. 日期和时间格式化
+  DATE_FORMAT(date, format)
+  ![6f1c0210.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\6f1c0210.png)
+  ![21a68442.png](:storage\\3f6ab761-ee9f-4ccc-a118-3b00733809f8\\21a68442.png)
+  TIME_FORMAT();
+  GET_FORMAT
+  
+  ## 4. 条件函数
+  1. IF(expr, v1, v2)
+  expr为true（expr<>0 and expr<>null）,返回v1,否则v2；
+  2. IFNULL(v1, v2)
+  v1不为NULL，返回v1，否则返回v2；
+  3. CASE函数
+  CASE expr WHEN v1 THEN r1 [WHEN v2 THEN r2] [ELSE rn] END;
+  
+  ## 5. 系统信息函数
+  1. VERSION() 当前mysql版本号，utf8编码；
+  2. CONNECTION_ID() mysql服务器当前连接的次数,当前连接的id；
+  3. SHOW PROCESSLIST，查询当前用户连接信息；
+  4. 获取用户名
+  USER() CURRENT_USER() SYSTEM_USER() SESSION_USER()
+  5. 获取字符集
+  CHATSET(str) 返回当前字符集
+  
+  ## 6. 加解密
+  1. PASSWORD(str) 单向加密，在myslq服务器的鉴定系统中使用；
+  2. MD5(str);
+  3. ENCODE(str, pwd_str) 加密  
+  DECODE(crypt_str, pwd_str) 解密
+  
+  ## 7. 其他函数
+  1. FORMAT(x, n) 将数字x格式化，以四舍五入的方式保留小数点后n位，结果以字符串形式返回，n为0时，返回结果不含小数部分；
+  2. 进制转换
+  CONV(N, from_base, to_base),返回N的字符串表示，任一参数为NULL，返回NULL
+  3. IP地址转换
+  INET_ATON(expr) ip转数字
+  INET_NTOA(expr) 数字转ip
+  4. 锁
+  用到再仔细看
+  GET_LOCK(str, timeout);
+  IS_USED_LOCK(str);
+  IS_FREE_LOCK(str);
+  RELEASE_LOCK(str);
+  5. 重复执行
+  BENCHMARK(count, expr)
+  执行expr count次，可用于测试expr执行时间，结果0标识执行很快，不是时间0
+  6. 改变字符集
+  CONVERT(... USING ...)
+  7. 改变数据类型
+  CAST(x, AS type) == CONVERT(x, type)
+  type可以取值：BINARY、CHAR(n)、DATE、TIME、DATETIME、DECIMAL、SIGNED、UNSIGNED
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

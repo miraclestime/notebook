@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "key": "cedeb617d15b99a78bdb",
+      "color": "#1278BD",
+      "name": "Default"
+    },
+    {
+      "key": "0a23bd7f6ab7c3a7ddd6",
+      "color": "#30D5C8",
+      "name": "go"
+    },
+    {
+      "key": "7ca834648924395d0cc8",
+      "color": "#B013A4",
+      "name": "mysql"
+    },
+    {
+      "key": "5b24b76c5b369d916d33",
+      "color": "#E10051",
+      "name": "java"
+    },
+    {
+      "key": "c8bfa55ac3cd5f95a4e7",
+      "color": "#30D5C8",
+      "name": "test"
+    }
+  ],
+  "version": "1.0"
+}

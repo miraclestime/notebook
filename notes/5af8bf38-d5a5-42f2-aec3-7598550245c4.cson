@@ -1,0 +1,20 @@
+createdAt: "2019-12-18T08:08:56.924Z"
+updatedAt: "2019-12-18T09:32:25.449Z"
+type: "MARKDOWN_NOTE"
+folder: "7ca834648924395d0cc8"
+title: "mysql学习笔记-索引"
+tags: []
+content: '''
+  # mysql学习笔记-索引
+  ## 基础知识
+  1. 索引是在存储引擎中实现的
+  2. MYSQL索引存储类型有两种（v5.7）:BTREE和HASH，MyISAM和InnoDB存储引擎只支持BTREE索引。
+  3. explain查看索引
+  ![6fb8d981.png](:storage\\5af8bf38-d5a5-42f2-aec3-7598550245c4\\6fb8d981.png)
+  ![ae0ee586.png](:storage\\5af8bf38-d5a5-42f2-aec3-7598550245c4\\ae0ee586.png)
+  4. AUTO_INCREMENT约束的字段唯一索引不能被删除
+  5. 不使用存储过程，因为存储过程难以调试和扩展，移植性差。
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

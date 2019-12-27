@@ -1,0 +1,25 @@
+createdAt: "2019-12-18T07:21:11.126Z"
+updatedAt: "2019-12-18T07:56:10.272Z"
+type: "MARKDOWN_NOTE"
+folder: "7ca834648924395d0cc8"
+title: "mysql学习笔记-CRUD"
+tags: []
+content: '''
+  # mysql学习笔记-CRUD
+  ## 查询
+  1. order by，首先排序的第一列必须有相同的值才进行第二列排序。
+  2. DESC 排序规则只应用于接于起前边的列，如果多列需要降序，则多列名后都需要加DESC；
+  3. GROUP BY中使用WITH ROLLUP，在分组记录后查询增加一条记录，计算查询出记录的综合。
+  4. COUNT(*) 计算表中总行数，不管列数值是否为NULL
+  COUNT(字段名) 计算指定列下总行数，计算时忽略空值行
+  COUNT（\\*）和COUNT(1)区别
+  - 在InnoDB引擎下效率相同。
+  - MyISAM引擎对count(*)进行了优化，可以快速得到结果. 但是如果使用count(1),那么如果当第一列的结果不为空的时候才有这种优化，所以在MyISAM引擎下 如果第一列为空的话count(1)的查询效率是没有count(*)高的。
+  5. SUM()计算时，忽略值为NULL的行
+  6. UNION从结果集中自动去除重复的行，UNION ALL不删除重复行，UNION ALL效率更高；
+  8. 
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

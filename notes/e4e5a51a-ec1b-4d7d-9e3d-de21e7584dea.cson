@@ -1,0 +1,22 @@
+createdAt: "2019-12-12T03:01:45.809Z"
+updatedAt: "2019-12-18T07:18:56.406Z"
+type: "MARKDOWN_NOTE"
+folder: "7ca834648924395d0cc8"
+title: "mysql问题"
+tags: []
+content: '''
+  # mysql问题
+  ## 1.视图可以更新吗?
+  
+  ## 学习规划
+  1. 《mysql从入门到精通》
+  2. 《深入浅出mysql》
+  3. 《mysql必知必会》
+  4. 极客时间-mysql
+  5. mybatis源码
+  6. 《高性能mysql》
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

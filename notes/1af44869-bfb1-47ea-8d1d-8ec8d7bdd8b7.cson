@@ -1,0 +1,19 @@
+createdAt: "2019-11-28T02:58:22.752Z"
+updatedAt: "2019-12-09T07:14:53.079Z"
+type: "SNIPPET_NOTE"
+folder: "cedeb617d15b99a78bdb"
+title: "go语言学习笔记"
+tags: [
+  "go"
+]
+description: "go语言学习笔记"
+snippets: [
+  {
+    linesHighlighted: []
+    name: "go语言学习笔记"
+    mode: null
+    content: ""
+  }
+]
+isStarred: false
+isTrashed: true

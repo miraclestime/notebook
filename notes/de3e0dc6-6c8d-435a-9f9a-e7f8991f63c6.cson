@@ -1,0 +1,141 @@
+createdAt: "2019-12-10T07:16:41.367Z"
+updatedAt: "2019-12-16T07:58:24.781Z"
+type: "MARKDOWN_NOTE"
+folder: "7ca834648924395d0cc8"
+title: "mysql学习笔记-用户操作"
+tags: [
+  "mysql学习笔记"
+]
+content: '''
+  #mysql学习笔记-用户操作
+  ## 1. 用户操作
+  
+  ### 创建用户
+  >`CREATE USER 'user'@'%' IDENTIFIED BY 'password';` 
+  
+  -@localhost，本机
+  -@ip，指定ip
+  -@%，所有ip
+  ### 分配权限
+  >`grant select, insert, update, delete on dbname.* to user@’%’;
+  >
+  >flush privilege;`
+  
+  ### mysql命令参数
+  1. -h 主机名，默认localhost
+  2. -u username
+  3. -p password
+  4. -P（大写） 端口号，默认3306
+  5. -e 执行SQL
+  
+  ### 修改用户密码
+  1. 修改自己密码
+  > `mysqladmin -u username -h localhost -p password "newpassword" `
+  > `SET password = password("newpassword")`;
+  
+  2. root 修改普通用户密码
+  >`SET password for 'user'@'host' = password("newpassword")`
+  
+  >`GRANT usage on *.* to 'user'@'host' identified by 'newpassword'`
+  >
+  
+  ### root密码丢失
+  1. mysqld_safe启动mysql(linux)
+  > `mysqld_safe --skip-grant-tables user = username`
+  3. 重新设置密码
+  
+  ### mysql的权限
+  ![ae04ff44.png](:storage\\de3e0dc6-6c8d-435a-9f9a-e7f8991f63c6\\ae04ff44.png)
+  ![b3a0c03e.png](:storage\\de3e0dc6-6c8d-435a-9f9a-e7f8991f63c6\\b3a0c03e.png)
+  ### 授权
+  grant revoke
+  
+  ## 2. 建表
+  ### 范式规范
+  #### 三范式
+  1. 第一范式（1NF），字段不能再分
+  2. 第二范式，满足第一范式，必须有主键，没有包含在主键中的列必须完全依赖于主键， 而不能只依赖主键的一部分
+  3. 第三范式，满足第二范式，任何非主键字段不能依赖于其他非主键字段，不能出现传递依赖（某个字段依赖于主键，而有其他字段依赖于该字段）
+  
+  三范式是在数据库初期使用（时间换取空间） ， 能外键关联就外键关联 ， 能不冗余数据设计 ， 就不冗余。
+  
+  #### 反范式（退范式）
+  
+  退范式的过程就是通过冗余数据来提高查询性能，但冗余数据要么牺牲数据一致性，要么增加CUD的成本，
+  设计上需要取舍。有以时间换空间，有以空间换时间；有时间局部性，有空间局部性。
+  只要违反了第二范式和第三范式 ， 就能做到空间换时间 ， 获的最大的效率 
+  现在的系统对性能要求高， 对存储要求低（空间换时间）
+  
+  ### 主键
+  建表时不添加主键，底层会把所有字段当成主键，建索引时所有字段加索引，所以还是需要制定主键
+  
+  
+  ## 3. 查询
+  >SELECT [ALL|DISTINCT] select_expr FROM -> WHERE -> GROUP BY [合计函数] -> HAVING -> ORDER BY -> LIMIT
+  a. select_expr
+      -- 可以用 * 表示所有字段。
+          select * from tb;
+      -- 可以使用表达式（计算公式、函数调用、字段也是个表达式）
+          select stu, 29+25, now() from tb;
+      -- 可以为每个列使用别名。适用于简化列标识，避免多个列标识符重复。
+          - 使用 as 关键字，也可省略 as.
+          select stu+10 as add10 from tb;
+  b. FROM 子句
+      用于标识查询来源。
+      -- 可以为表起别名。使用as关键字。
+          SELECT * FROM tb1 AS tt, tb2 AS bb;
+      -- from子句后，可以同时出现多个表。
+          -- 多个表会横向叠加到一起，而数据会形成一个笛卡尔积。
+          SELECT * FROM tb1, tb2;
+      -- 向优化符提示如何选择索引
+          USE INDEX、IGNORE INDEX、FORCE INDEX
+          SELECT * FROM table1 USE INDEX (key1,key2) WHERE key1=1 AND key2=2 AND key3=3;
+          SELECT * FROM table1 IGNORE INDEX (key3) WHERE key1=1 AND key2=2 AND key3=3;
+  c. WHERE 子句
+      -- 从from获得的数据源中进行筛选。
+      -- 整型1表示真，0表示假。
+      -- 表达式由运算符和运算数组成。
+          -- 运算数：变量（字段）、值、函数返回值
+          -- 运算符：
+              =, <=>, <>, !=, <=, <, >=, >, !, &&, ||,
+              in (not) null, (not) like, (not) in, (not) between and, is (not), and, or, not, xor
+              is/is not 加上ture/false/unknown，检验某个值的真假
+              <=>与<>功能相同，<=>可用于null比较
+  d. GROUP BY 子句, 分组子句
+      GROUP BY 字段/别名 [排序方式]
+      分组后会进行排序。升序：ASC，降序：DESC
+      以下[合计函数]需配合 GROUP BY 使用：
+      count 返回不同的非NULL值数目  count(*)、count(字段)
+      sum 求和
+      max 求最大值
+      min 求最小值
+      avg 求平均值
+      group_concat 返回带有来自一个组的连接的非NULL值的字符串结果。组内字符串连接。
+  e. HAVING 子句，条件子句
+      与 where 功能、用法相同，执行时机不同。
+      where 在开始时执行检测数据，对原数据进行过滤。
+      having 对筛选出的结果再次进行过滤。
+      having 字段必须是查询出来的，where 字段必须是数据表存在的。
+      where 不可以使用字段的别名，having 可以。因为执行WHERE代码时，可能尚未确定列值。
+      where 不可以使用合计函数。一般需用合计函数才会用 having
+      SQL标准要求HAVING必须引用GROUP BY子句中的列或用于合计函数中的列。
+  f. ORDER BY 子句，排序子句
+      order by 排序字段/别名 排序方式 [,排序字段/别名 排序方式]...
+      升序：ASC，降序：DESC
+      支持多个字段的排序。
+  g. LIMIT 子句，限制结果数量子句
+      仅对处理好的结果进行数量限制。将处理好的结果的看作是一个集合，按照记录出现的顺序，索引从0开始。
+      limit 起始位置, 获取条数
+      省略第一个参数，表示从索引0开始。limit 获取条数
+  h. DISTINCT, ALL 选项
+      distinct 去除重复记录
+      默认为 all, 全部记录
+      
+  ## 4. SQL编程
+  ### 4.1 局部变量 
+  ### 4.2 内置函数
+  
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false

@@ -1,0 +1,18 @@
+createdAt: "2019-11-18T09:23:50.762Z"
+updatedAt: "2019-12-09T07:14:49.265Z"
+type: "SNIPPET_NOTE"
+folder: "cedeb617d15b99a78bdb"
+title: "linux简易教程"
+tags: [
+  "linux"
+]
+description: "linux简易教程"
+snippets: [
+  {
+    linesHighlighted: []
+    name: "linux简易教程"
+    content: ""
+  }
+]
+isStarred: false
+isTrashed: true

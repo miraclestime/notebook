@@ -1,0 +1,56 @@
+createdAt: "2019-12-16T09:23:15.858Z"
+updatedAt: "2019-12-17T02:30:03.692Z"
+type: "MARKDOWN_NOTE"
+folder: "7ca834648924395d0cc8"
+title: "mysl学习笔记-基本操作"
+tags: []
+content: '''
+  # mysl学习笔记-基本操作
+  ## 数据库基本操作
+  1. show databases;
+  2. create database db_name;
+  创建数据库是在系统磁盘上划分一块区域用于数据的存储和管理。
+  3. drop database db_name;
+  
+  4. 修改表名：alter table tb_name rename tb_new_name;
+  5. 修改字段数据类型：
+  alter table tb_name modify field_name data_type;
+  6. 修改字段名：
+  alter table tb_name change old_field_name new_field_name new_data_type;
+  7. 添加字段：
+  alter table tb_name add new_field_name data_type;
+  8. 删除字段：
+  alter table tb_name drop field_name;
+  9. 删除表：
+  drop table if exists tb_name;
+  
+  
+  
+  ## 数据库存储引擎
+  1. show engines查看系统支持的存储引擎；
+  2. InnoDB，支持安全事务表（ACID），支持行锁定和外键。
+  3. MYISAM拥有较高的插入、查询速度，但不支持事务。
+  4. 存储引擎选择
+  ![d1fa1fb9.png](:storage\\6e6486dd-1beb-4d46-a47d-d662d1d71b28\\d1fa1fb9.png)
+  5. 更改存储引擎
+  可以为每一张表选择不同的存储引擎，
+  alter table tb_name engine=engine_type;
+  
+  ## 为什么不建议使用外键
+  1. 性能
+  每次插入或更新数据，需要在外键对应的表中查询是否有对应的数据，如果在程序中控制，可以选择不查询。
+  2. 并发
+  在使用外键的情况下，每次修改数据都需要去另外一个表检查数据,需要获取额外的锁。若是在高并发大流量事务场景，使用外键更容易造成死锁。
+  3. 扩展性
+  - 做平台迁移方便，比如你从Mysql迁移到Oracle，像触发器、外键这种东西，都可以利用框架本身的特性来实现，而不用依赖于数据库本身的特性，做迁移更加方便。
+  - 分库分表方便，在水平拆分和分库的情况下，外键是无法生效的。将数据间关系的维护，放入应用程序中，为将来的分库分表省去很多的麻烦
+  4. 技术
+  使用外键，将应用程序应该执行的判断逻辑转移到了数据库上，对数据库管理人员的技术水平要求就高。
+  
+  ## 自增字段从1开始
+  使用清空表命令：TRUNCATE TABLE TABLENAME;
+  TRUNCATE删除数据时，速度比DELETE快，它通过释放表数据所用的数据页来删除数据，DELETE是一行一行删除，在日志中也可以做查询。TRUNCATE删除所有行，表结构、列、索引、约束等保持不变。
+'''
+linesHighlighted: []
+isStarred: false
+isTrashed: false
